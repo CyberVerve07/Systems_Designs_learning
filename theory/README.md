@@ -5,3 +5,4 @@ This folder is for documenting our daily learnings in System Design. You can cre
 ## Topics to Cover
 - Load Balancer
 - Notification System
+- Message Queues (Async Architecture)
