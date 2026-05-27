@@ -56,6 +56,15 @@ Welcome to my System Design learning repository! This repository documents my da
   - Password hashing with bcrypt
   - Security best practices
 
+### **Day 6: Rate Limiting & Throttling**
+- **Theory**: `theory/rate_limiter/rate_limiter.md`
+- **Code**: `code/rate_limiter/rate_limiter_example/`
+- **Key Concepts**:
+  - Purpose of Rate Limiting (Abuse prevention, cost control, resource management)
+  - Placements (Client-side, Server-side, API Gateway)
+  - Algorithms (Token Bucket, Leaky Bucket, Sliding Window Counter, Sliding Window Log)
+  - Concurrency challenges in distributed rate limiters (Race conditions, Redis Lua scripting)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -101,7 +110,8 @@ Systems_Designs_learning/
 │   ├── caching/
 │   ├── database_design/
 │   ├── api_gateway_microservices/
-│   └── authentication_authorization/
+│   ├── authentication_authorization/
+│   └── rate_limiter/
 ├── code/                            # Practical implementations
 │   ├── load_balancer/
 │   ├── caching/
@@ -110,8 +120,10 @@ Systems_Designs_learning/
 │   │   └── sharding_example/
 │   ├── api_gateway_microservices/
 │   │   └── api_gateway_example/
-│   └── authentication_authorization/
-│       └── jwt_example/
+│   ├── authentication_authorization/
+│   │   └── jwt_example/
+│   └── rate_limiter/
+│       └── rate_limiter_example/
 └── README.md                        # This file
 ```
 
@@ -122,6 +134,7 @@ Systems_Designs_learning/
 3. **Day 3**: Master data storage (Database Design, Sharding)
 4. **Day 4**: Build distributed systems (API Gateway, Microservices)
 5. **Day 5**: Secure your systems (Authentication, Authorization)
+6. **Day 6**: Control API traffic (Rate Limiting & Throttling)
 
 ## 🛠️ Technologies Used
 
@@ -162,6 +175,7 @@ Systems_Designs_learning/
 - ✅ Day 3: Database Design & Sharding
 - ✅ Day 4: API Gateway & Microservices
 - ✅ Day 5: Authentication & Authorization
+- ✅ Day 6: Rate Limiting & Throttling
 
 ## 🎓 Next Topics to Cover
 
