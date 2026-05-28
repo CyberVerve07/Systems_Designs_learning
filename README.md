@@ -65,6 +65,16 @@ Welcome to my System Design learning repository! This repository documents my da
   - Algorithms (Token Bucket, Leaky Bucket, Sliding Window Counter, Sliding Window Log)
   - Concurrency challenges in distributed rate limiters (Race conditions, Redis Lua scripting)
 
+### **Day 7: Message Queues & Event-Driven Architecture**
+- **Theory**: `theory/message_queues/message_queues_deep_dive.md`
+- **Code**: `code/message_queues/message_broker_example/`
+- **Key Concepts**:
+  - Asynchronous patterns, non-blocking flow control, and backpressure
+  - Messaging models: Point-to-Point (Queues) vs. Publish/Subscribe (Topics)
+  - Kafka-style hybrid Consumer Groups load balancing
+  - Reliability semantics: ACKs, NACKs, and dead-letter queues (DLQ)
+  - Scheduled reaper threads for reclaiming in-flight timeouts
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -111,7 +121,8 @@ Systems_Designs_learning/
 │   ├── database_design/
 │   ├── api_gateway_microservices/
 │   ├── authentication_authorization/
-│   └── rate_limiter/
+│   ├── rate_limiter/
+│   └── message_queues/
 ├── code/                            # Practical implementations
 │   ├── load_balancer/
 │   ├── caching/
@@ -122,8 +133,10 @@ Systems_Designs_learning/
 │   │   └── api_gateway_example/
 │   ├── authentication_authorization/
 │   │   └── jwt_example/
-│   └── rate_limiter/
-│       └── rate_limiter_example/
+│   ├── rate_limiter/
+│   │   └── rate_limiter_example/
+│   └── message_queues/
+│       └── message_broker_example/
 └── README.md                        # This file
 ```
 
@@ -135,6 +148,7 @@ Systems_Designs_learning/
 4. **Day 4**: Build distributed systems (API Gateway, Microservices)
 5. **Day 5**: Secure your systems (Authentication, Authorization)
 6. **Day 6**: Control API traffic (Rate Limiting & Throttling)
+7. **Day 7**: Decouple components (Message Queues & Event-Driven Architecture)
 
 ## 🛠️ Technologies Used
 
@@ -176,14 +190,14 @@ Systems_Designs_learning/
 - ✅ Day 4: API Gateway & Microservices
 - ✅ Day 5: Authentication & Authorization
 - ✅ Day 6: Rate Limiting & Throttling
+- ✅ Day 7: Message Queues & Event-Driven Architecture
 
 ## 🎓 Next Topics to Cover
 
-- Message Queues & Async Architecture
-- Notification Systems
-- Rate Limiting & Throttling
-- Content Delivery Networks (CDN)
-- Distributed Systems (CAP Theorem, Consistency Models)
+- Notification Systems (Using Webhooks, Push, SMS, Email routing)
+- Content Delivery Networks (CDN) & Edge Caching
+- Distributed Unique ID Generator (Twitter Snowflake, etc.)
+- Distributed Systems (CAP Theorem, Consistency Models, Consensus)
 - Monitoring & Observability
 - Real-world System Design (URL Shortener, Twitter Timeline, etc.)
 
