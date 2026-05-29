@@ -1,14 +1,10 @@
 package com.systemdesign.idgenerator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Thread-safe implementation of Twitter Snowflake Algorithm in Java.
  * Generates unique, time-sortable 64-bit IDs.
  */
 public class SnowflakeIdGenerator {
-    private static final Logger log = LoggerFactory.getLogger(SnowflakeIdGenerator.class);
 
     // Custom Epoch (May 1, 2026 00:00:00 UTC) in milliseconds
     private static final long CUSTOM_EPOCH = 1777593600000L;
@@ -46,7 +42,7 @@ public class SnowflakeIdGenerator {
         }
         this.datacenterId = datacenterId;
         this.workerId = workerId;
-        log.info("Initialized Snowflake Generator. Datacenter ID: {}, Worker ID: {}", datacenterId, workerId);
+        System.out.printf("[INFO] Initialized Snowflake Generator. Datacenter ID: %d, Worker ID: %d%n", datacenterId, workerId);
     }
 
     /**
@@ -58,7 +54,7 @@ public class SnowflakeIdGenerator {
         // 1. Clock Drift Detection (If current time is less than last recorded time)
         if (currentTimestamp < lastTimestamp) {
             long driftMillis = lastTimestamp - currentTimestamp;
-            log.warn("Clock drift detected! System time moved backwards by {} ms.", driftMillis);
+            System.err.printf("[WARN] Clock drift detected! System time moved backwards by %d ms.%n", driftMillis);
 
             // If drift is small, wait for the clock to catch up
             if (driftMillis <= 10) {
