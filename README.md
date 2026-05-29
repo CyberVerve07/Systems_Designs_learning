@@ -75,6 +75,15 @@ Welcome to my System Design learning repository! This repository documents my da
   - Reliability semantics: ACKs, NACKs, and dead-letter queues (DLQ)
   - Scheduled reaper threads for reclaiming in-flight timeouts
 
+### **Day 8: Distributed Unique ID Generator (Snowflake)**
+- **Theory**: `theory/distributed_id_generator/distributed_id_generator.md`
+- **Code**: *N/A (Theoretical Session)*
+- **Key Concepts**:
+  - Auto-increment limitations in sharded databases
+  - Comparison of alternatives (UUID, Multi-Master replication, Ticket Server)
+  - Twitter Snowflake 64-bit partition mathematics
+  - NTP clock drift detection & Zookeeper dynamic Node ID allocation
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -191,6 +200,7 @@ Systems_Designs_learning/
 - ✅ Day 5: Authentication & Authorization
 - ✅ Day 6: Rate Limiting & Throttling
 - ✅ Day 7: Message Queues & Event-Driven Architecture
+- ✅ Day 8: Distributed Unique ID Generator (Snowflake)
 
 ## 🎓 Next Topics to Cover
 
