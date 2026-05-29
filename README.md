@@ -131,7 +131,8 @@ Systems_Designs_learning/
 │   ├── api_gateway_microservices/
 │   ├── authentication_authorization/
 │   ├── rate_limiter/
-│   └── message_queues/
+│   ├── message_queues/
+│   └── distributed_id_generator/
 ├── code/                            # Practical implementations
 │   ├── load_balancer/
 │   ├── caching/
@@ -144,8 +145,10 @@ Systems_Designs_learning/
 │   │   └── jwt_example/
 │   ├── rate_limiter/
 │   │   └── rate_limiter_example/
-│   └── message_queues/
-│       └── message_broker_example/
+│   ├── message_queues/
+│   │   └── message_broker_example/
+│   └── distributed_id_generator/
+│       └── snowflake_example/
 └── README.md                        # This file
 ```
 
@@ -158,6 +161,7 @@ Systems_Designs_learning/
 5. **Day 5**: Secure your systems (Authentication, Authorization)
 6. **Day 6**: Control API traffic (Rate Limiting & Throttling)
 7. **Day 7**: Decouple components (Message Queues & Event-Driven Architecture)
+8. **Day 8**: Design highly scalable unique IDs (Distributed Unique ID Generator)
 
 ## 🛠️ Technologies Used
 

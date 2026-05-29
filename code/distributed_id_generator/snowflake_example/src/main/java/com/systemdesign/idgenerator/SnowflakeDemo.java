@@ -1,8 +1,5 @@
 package com.systemdesign.idgenerator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,10 +14,9 @@ import java.util.concurrent.TimeUnit;
  * Tests thread safety, collision-free uniqueness, and chronological sorting.
  */
 public class SnowflakeDemo {
-    private static final Logger log = LoggerFactory.getLogger(SnowflakeDemo.class);
 
     public static void main(String[] args) {
-        log.info("=== Starting Twitter Snowflake ID Generator Demo ===");
+        System.out.println("=== Starting Twitter Snowflake ID Generator Demo ===");
 
         // Initialize generator for Datacenter 1, Worker 5
         long datacenterId = 1;
@@ -30,16 +26,16 @@ public class SnowflakeDemo {
         // -------------------------------------------------------------
         // Test 1: Single ID Bitwise Visualization
         // -------------------------------------------------------------
-        log.info("\n--- TEST 1: Bitwise Visualization ---");
+        System.out.println("\n--- TEST 1: Bitwise Visualization ---");
         long sampleId = generator.nextId();
-        log.info("Generated Decimal ID: {}", sampleId);
-        log.info("Binary Representation: {}", Long.toBinaryString(sampleId));
+        System.out.printf("Generated Decimal ID: %d%n", sampleId);
+        System.out.printf("Binary Representation: %s%n", Long.toBinaryString(sampleId));
         visualizeBits(sampleId);
 
         // -------------------------------------------------------------
         // Test 2: High Concurrency & Uniqueness Test
         // -------------------------------------------------------------
-        log.info("\n--- TEST 2: High Concurrency Uniqueness Test ---");
+        System.out.println("\n--- TEST 2: High Concurrency Uniqueness Test ---");
         int threadCount = 4;
         int idsPerThread = 10000;
         int totalExpectedIds = threadCount * idsPerThread;
@@ -54,62 +50,67 @@ public class SnowflakeDemo {
         for (int i = 0; i < threadCount; i++) {
             final int threadId = i;
             executor.submit(() -> {
-                log.info("Thread {} started generating {} IDs...", threadId, idsPerThread);
+                System.out.printf("[INFO] Thread %d started generating %d IDs...%n", threadId, idsPerThread);
                 for (int j = 0; j < idsPerThread; j++) {
                     long id = generator.nextId();
                     uniqueIds.add(id);
                     orderedList.add(id);
                 }
-                log.info("Thread {} completed.", threadId);
+                System.out.printf("[INFO] Thread %d completed.%n", threadId);
             });
         }
 
         executor.shutdown();
         try {
             if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
-                log.error("Executor service did not terminate in time!");
+                System.err.println("[ERROR] Executor service did not terminate in time!");
             }
         } catch (InterruptedException e) {
-            log.error("Interrupted while waiting for threads to finish", e);
+            System.err.println("[ERROR] Interrupted while waiting for threads to finish");
             Thread.currentThread().interrupt();
         }
 
         long durationMs = (System.nanoTime() - startTime) / 1_000_000;
 
-        log.info("\n--- CONCURRENCY TEST RESULTS ---");
-        log.info("Total IDs expected: {}", totalExpectedIds);
-        log.info("Total Unique IDs captured: {}", uniqueIds.size());
-        log.info("Execution Time: {} ms", durationMs);
-        log.info("Average Speed: {} IDs/millisecond", (double) totalExpectedIds / durationMs);
+        System.out.println("\n--- CONCURRENCY TEST RESULTS ---");
+        System.out.printf("Total IDs expected: %d%n", totalExpectedIds);
+        System.out.printf("Total Unique IDs captured: %d%n", uniqueIds.size());
+        System.out.printf("Execution Time: %d ms%n", durationMs);
+        System.out.printf("Average Speed: %.2f IDs/millisecond%n", (double) totalExpectedIds / durationMs);
 
         // Check for duplicates
         if (uniqueIds.size() == totalExpectedIds) {
-            log.info("SUCCESS: Zero ID collisions detected! 100% Uniqueness Verified.");
+            System.out.println("SUCCESS: Zero ID collisions detected! 100% Uniqueness Verified.");
         } else {
-            log.error("FAILURE: Duplicate IDs generated! Collisions count: {}", totalExpectedIds - uniqueIds.size());
+            System.err.printf("FAILURE: Duplicate IDs generated! Collisions count: %d%n", totalExpectedIds - uniqueIds.size());
         }
 
         // -------------------------------------------------------------
         // Test 3: Chronological (Time-Sortable) Test
         // -------------------------------------------------------------
-        log.info("\n--- TEST 3: Chronological Sorting Test ---");
+        System.out.println("\n--- TEST 3: Chronological Sorting Test ---");
+        List<Long> singleThreadList = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            singleThreadList.add(generator.nextId());
+        }
+
         boolean isSorted = true;
-        for (int i = 0; i < orderedList.size() - 1; i++) {
-            if (orderedList.get(i) > orderedList.get(i + 1)) {
+        for (int i = 0; i < singleThreadList.size() - 1; i++) {
+            if (singleThreadList.get(i) >= singleThreadList.get(i + 1)) {
                 isSorted = false;
                 break;
             }
         }
 
         if (isSorted) {
-            log.info("SUCCESS: All generated IDs are chronological (Time-Sortable).");
-            log.info("First ID: {}", orderedList.get(0));
-            log.info("Last ID : {}", orderedList.get(orderedList.size() - 1));
+            System.out.println("SUCCESS: All sequential generated IDs are strictly chronological (Time-Sortable).");
+            System.out.printf("First ID: %d%n", singleThreadList.get(0));
+            System.out.printf("Last ID : %d%n", singleThreadList.get(singleThreadList.size() - 1));
         } else {
-            log.error("FAILURE: IDs are not chronological!");
+            System.err.println("FAILURE: IDs are not strictly chronological!");
         }
 
-        log.info("\n=== Snowflake Demo Completed ===");
+        System.out.println("\n=== Snowflake Demo Completed ===");
     }
 
     /**
@@ -130,8 +131,8 @@ public class SnowflakeDemo {
         String worker = binary.substring(47, 52);
         String sequence = binary.substring(52, 64);
 
-        log.info("Bit-Partitioned View:");
-        log.info("[Sign: {}] [Timestamp (41b): {}] [Datacenter (5b): {}] [Worker (5b): {}] [Sequence (12b): {}]",
+        System.out.println("Bit-Partitioned View:");
+        System.out.printf("[Sign: %s] [Timestamp (41b): %s] [Datacenter (5b): %s] [Worker (5b): %s] [Sequence (12b): %s]%n",
                 sign, timestamp, datacenter, worker, sequence);
         
         // Show decimal parses
@@ -140,10 +141,10 @@ public class SnowflakeDemo {
         long parsedWorker = Long.parseLong(worker, 2);
         long parsedSequence = Long.parseLong(sequence, 2);
 
-        log.info("Parsed Decimals from Bits:");
-        log.info("-> Milliseconds since custom epoch: {} ms", parsedTimestamp);
-        log.info("-> Datacenter ID: {}", parsedDatacenter);
-        log.info("-> Worker ID    : {}", parsedWorker);
-        log.info("-> Sequence ID  : {}", parsedSequence);
+        System.out.println("Parsed Decimals from Bits:");
+        System.out.printf("-> Milliseconds since custom epoch: %d ms%n", parsedTimestamp);
+        System.out.printf("-> Datacenter ID: %d%n", parsedDatacenter);
+        System.out.printf("-> Worker ID    : %d%n", parsedWorker);
+        System.out.printf("-> Sequence ID  : %d%n", parsedSequence);
     }
 }
