@@ -5,6 +5,8 @@ import io.jsonwebtoken.security.Keys;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.crypto.SecretKey;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -84,7 +86,6 @@ public class JwtUtil {
     /**
      * Extract roles from token
      */
-    @SuppressWarnings("unchecked")
     public static Set<String> extractRoles(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -92,7 +93,13 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
         
-        return (Set<String>) claims.get("roles");
+        Object rolesObj = claims.get("roles");
+        if (rolesObj instanceof Collection<?>) {
+            return ((Collection<?>) rolesObj).stream()
+                    .map(Object::toString)
+                    .collect(Collectors.toSet());
+        }
+        return Collections.emptySet();
     }
     
     /**

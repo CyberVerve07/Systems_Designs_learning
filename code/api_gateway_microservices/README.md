@@ -4,10 +4,11 @@ This directory contains practical implementations of API Gateway and Microservic
 
 ## Files Structure
 
-- `api_gateway_example/` - Simple API Gateway implementation with routing
-- `microservices_demo/` - Multiple microservices communicating with each other
-- `service_discovery/` - Service discovery implementation
-- `api_aggregation/` - API aggregation pattern example
+- `api_gateway_example/` - API Gateway implementation in Java, demonstrating:
+  - Dynamic service registration
+  - URL prefix and regex path routing
+  - Request/Response translation and header decoration (`X-Gateway-Request-ID`, `X-Forwarded-For`)
+  - Multi-service dispatch simulation (User, Order, and Product services)
 
 ## Setup Instructions
 

@@ -4,10 +4,11 @@ This directory contains practical implementations of authentication and authoriz
 
 ## Files Structure
 
-- `jwt_example/` - JWT (JSON Web Token) implementation
-- `password_hashing/` - Secure password hashing with bcrypt
-- `rbac_example/` - Role-Based Access Control implementation
-- `oauth_example/` - OAuth 2.0 client implementation
+- `jwt_example/` - Complete authentication and authorization simulation in Java, demonstrating:
+  - Secure password hashing and salt verification with BCrypt
+  - Cryptographic HMAC-SHA256 JWT token generation, parsing, and expiration validation
+  - Role-Based Access Control (RBAC) checking (`ADMIN`, `USER`)
+  - Session lifecycle and token invalidation
 
 ## Setup Instructions
 

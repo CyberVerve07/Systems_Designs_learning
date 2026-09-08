@@ -4,10 +4,10 @@ This directory contains practical implementations of database design patterns di
 
 ## Files Structure
 
-- `sharding_example/` - Database sharding implementation with different strategies
-- `connection_pooling/` - Database connection pooling example
-- `sql_vs_nosql/` - Comparison between SQL and NoSQL implementations
-- `indexing_demo/` - Database indexing performance comparison
+- `sharding_example/` - Database sharding implementation in Java with in-memory H2 databases, covering:
+  - Hash-based sharding strategy
+  - Range-based sharding strategy
+  - Shard manager routing and distribution statistics
 
 ## Setup Instructions
 

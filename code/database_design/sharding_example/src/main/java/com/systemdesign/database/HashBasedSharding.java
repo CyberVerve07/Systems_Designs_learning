@@ -10,9 +10,9 @@ public class HashBasedSharding implements ShardingStrategy {
     
     @Override
     public int getShardId(int userId, int totalShards) {
-        // Simple hash function: userId % totalShards
-        // In production, use better hash like MurmurHash or consistent hashing
-        return Math.abs(userId % totalShards);
+        // Safe hash modulo guaranteeing non-negative shard index [0, totalShards - 1]
+        // In production, use consistent hashing or MurmurHash
+        return Math.floorMod(userId, totalShards);
     }
     
     @Override

@@ -4,6 +4,17 @@ Welcome to the **System Design Learning Journey**! This repository documents rea
 
 ---
 
+## 📌 Quick Navigation
+- [🎯 Special Highlights](#-special-highlights)
+- [📚 Topics Covered (Day 1 – 10)](#-topics-covered)
+- [🚀 Getting Started](#-getting-started)
+- [📁 Repository Structure](#-repository-structure)
+- [📝 Progress Checklist](#-progress-checklist)
+- [🤝 Contributing](#-contributing)
+- [🔗 Recommended Resources](#-recommended-resources)
+
+---
+
 ## 🎯 Special Highlights
 
 - 🛍️ **[100 Production E-Commerce System Design Interview Questions (3+ YOE)](theory/interview_prep/ecommerce_100_system_design_questions.md)**: Real-world failure scenarios, API latency spikes, Kafka consumer crashes, inventory overselling prevention, payment idempotency, and distributed transactions.
@@ -30,7 +41,7 @@ Welcome to the **System Design Learning Journey**! This repository documents rea
   - Caching strategies (Cache-Aside, Write-Through, Write-Behind)
   - Cache eviction policies (LRU, LFU, FIFO, TTL)
   - Redis implementation with Java
-  - Performance optimization (50-100x speedup)
+  - Performance optimization & latency comparison (Database vs. In-Memory Cache)
 
 ### **Day 3: Database Design & Sharding**
 - **Theory**: [`theory/database_design/database_design.md`](theory/database_design/database_design.md)
@@ -201,6 +212,16 @@ Systems_Designs_learning/
 - [x] Day 10: Notification System Architecture
 - [x] Case Study: Twitter / X Scalable Architecture
 - [x] Interview Series: 100 Production E-Commerce System Design Questions (3+ YOE)
+
+---
+
+## 🤝 Contributing
+
+Contributions are warmly welcomed! Whether you are fixing an issue, improving theory notes, adding interview questions, or contributing a new Java simulation module:
+
+1. Check out our **[Contribution Guidelines](CONTRIBUTING.md)** for workflows, coding standards, and local verification.
+2. Report bugs or suggest topics using the **[GitHub Issue Templates](.github/ISSUE_TEMPLATE/)**.
+3. Submit Pull Requests adhering to our **[Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)**.
 
 ---
 

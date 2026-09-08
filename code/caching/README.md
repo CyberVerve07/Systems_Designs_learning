@@ -4,10 +4,12 @@ This directory contains practical implementations of caching strategies discusse
 
 ## Files Structure
 
-- `redis_cache_example/` - Redis implementation with Java
-- `simple_in_memory_cache/` - Basic in-memory cache implementation
-- `cache_patterns/` - Different caching patterns (Cache-Aside, Write-Through, etc.)
-- `performance_comparison/` - Performance benchmarks
+- `redis_cache_example/` - Redis and in-memory caching simulation in Java, demonstrating:
+  - Cache-Aside pattern
+  - Write-Through pattern
+  - Write-Behind (asynchronous) pattern
+  - Cache Invalidation
+  - Database vs. Cache latency performance comparison
 
 ## Setup Instructions
 
