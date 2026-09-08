@@ -1,21 +1,30 @@
-# System Design Learning Journey
+# 🚀 System Design Learning Journey & Production Architecture
 
-Welcome to my System Design learning repository! This repository documents my daily learnings in System Design with comprehensive theory notes and practical code implementations.
+Welcome to the **System Design Learning Journey**! This repository documents real-world system design principles, comprehensive theoretical notes, working Java code implementations, end-to-end architecture case studies, and a 100-question production interview guide.
+
+---
+
+## 🎯 Special Highlights
+
+- 🛍️ **[100 Production E-Commerce System Design Interview Questions (3+ YOE)](theory/interview_prep/ecommerce_100_system_design_questions.md)**: Real-world failure scenarios, API latency spikes, Kafka consumer crashes, inventory overselling prevention, payment idempotency, and distributed transactions.
+- 🐦 **[Twitter / X Complete System Design & Architecture](theory/twitter_x_system_design/README.md)**: End-to-end production architecture featuring HD visual architecture diagrams in [`theory/twitter_x_system_design/assets/`](theory/twitter_x_system_design/assets/).
+
+---
 
 ## 📚 Topics Covered
 
 ### **Day 1: Servers & Load Balancers**
-- **Theory**: `theory/load_balancer/load_balancer.md`
-- **Code**: `code/load_balancer/`
+- **Theory**: [`theory/load_balancer/load_balancer.md`](theory/load_balancer/load_balancer.md)
+- **Code**: [`code/load_balancer/`](code/load_balancer/)
 - **Key Concepts**:
   - What is a Server and Load Balancer
   - Traffic distribution algorithms (Round Robin, Least Connections, IP Hash)
-  - High availability and reliability
+  - High availability, health checks, and failover
   - Horizontal scaling
 
 ### **Day 2: Caching Strategies**
-- **Theory**: `theory/caching/caching_strategies.md`
-- **Code**: `code/caching/redis_cache_example/`
+- **Theory**: [`theory/caching/caching_strategies.md`](theory/caching/caching_strategies.md)
+- **Code**: [`code/caching/redis_cache_example/`](code/caching/redis_cache_example/)
 - **Key Concepts**:
   - Client-side, Server-side, and CDN caching
   - Caching strategies (Cache-Aside, Write-Through, Write-Behind)
@@ -24,8 +33,8 @@ Welcome to my System Design learning repository! This repository documents my da
   - Performance optimization (50-100x speedup)
 
 ### **Day 3: Database Design & Sharding**
-- **Theory**: `theory/database_design/database_design.md`
-- **Code**: `code/database_design/sharding_example/`
+- **Theory**: [`theory/database_design/database_design.md`](theory/database_design/database_design.md)
+- **Code**: [`code/database_design/sharding_example/`](code/database_design/sharding_example/)
 - **Key Concepts**:
   - SQL vs NoSQL databases
   - ACID vs BASE consistency models
@@ -35,8 +44,8 @@ Welcome to my System Design learning repository! This repository documents my da
   - Indexing and normalization
 
 ### **Day 4: API Gateway & Microservices**
-- **Theory**: `theory/api_gateway_microservices/api_gateway_microservices.md`
-- **Code**: `code/api_gateway_microservices/api_gateway_example/`
+- **Theory**: [`theory/api_gateway_microservices/api_gateway_microservices.md`](theory/api_gateway_microservices/api_gateway_microservices.md)
+- **Code**: [`code/api_gateway_microservices/api_gateway_example/`](code/api_gateway_microservices/api_gateway_example/)
 - **Key Concepts**:
   - Monolithic vs Microservices architecture
   - API Gateway responsibilities (routing, load balancing, authentication)
@@ -46,8 +55,8 @@ Welcome to my System Design learning repository! This repository documents my da
   - Distributed transactions (Saga pattern)
 
 ### **Day 5: Authentication & Authorization**
-- **Theory**: `theory/authentication_authorization/authentication_authorization.md`
-- **Code**: `code/authentication_authorization/jwt_example/`
+- **Theory**: [`theory/authentication_authorization/authentication_authorization.md`](theory/authentication_authorization/authentication_authorization.md)
+- **Code**: [`code/authentication_authorization/jwt_example/`](code/authentication_authorization/jwt_example/)
 - **Key Concepts**:
   - Authentication vs Authorization
   - Authentication methods (Password, MFA, API Keys, OAuth 2.0)
@@ -57,8 +66,8 @@ Welcome to my System Design learning repository! This repository documents my da
   - Security best practices
 
 ### **Day 6: Rate Limiting & Throttling**
-- **Theory**: `theory/rate_limiter/rate_limiter.md`
-- **Code**: `code/rate_limiter/rate_limiter_example/`
+- **Theory**: [`theory/rate_limiter/rate_limiter.md`](theory/rate_limiter/rate_limiter.md)
+- **Code**: [`code/rate_limiter/rate_limiter_example/`](code/rate_limiter/rate_limiter_example/)
 - **Key Concepts**:
   - Purpose of Rate Limiting (Abuse prevention, cost control, resource management)
   - Placements (Client-side, Server-side, API Gateway)
@@ -66,8 +75,8 @@ Welcome to my System Design learning repository! This repository documents my da
   - Concurrency challenges in distributed rate limiters (Race conditions, Redis Lua scripting)
 
 ### **Day 7: Message Queues & Event-Driven Architecture**
-- **Theory**: `theory/message_queues/message_queues_deep_dive.md`
-- **Code**: `code/message_queues/message_broker_example/`
+- **Theory**: [`theory/message_queues/message_queues_deep_dive.md`](theory/message_queues/message_queues_deep_dive.md)
+- **Code**: [`code/message_queues/message_broker_example/`](code/message_queues/message_broker_example/)
 - **Key Concepts**:
   - Asynchronous patterns, non-blocking flow control, and backpressure
   - Messaging models: Point-to-Point (Queues) vs. Publish/Subscribe (Topics)
@@ -76,24 +85,44 @@ Welcome to my System Design learning repository! This repository documents my da
   - Scheduled reaper threads for reclaiming in-flight timeouts
 
 ### **Day 8: Distributed Unique ID Generator (Snowflake)**
-- **Theory**: `theory/distributed_id_generator/distributed_id_generator.md`
-- **Code**: *N/A (Theoretical Session)*
+- **Theory**: [`theory/distributed_id_generator/distributed_id_generator.md`](theory/distributed_id_generator/distributed_id_generator.md)
+- **Code**: [`code/distributed_id_generator/snowflake_example/`](code/distributed_id_generator/snowflake_example/)
 - **Key Concepts**:
   - Auto-increment limitations in sharded databases
   - Comparison of alternatives (UUID, Multi-Master replication, Ticket Server)
   - Twitter Snowflake 64-bit partition mathematics
-  - NTP clock drift detection & Zookeeper dynamic Node ID allocation
+  - NTP clock drift detection & dynamic Node ID allocation
+
+### **Day 9: Apache Kafka & Event Streaming**
+- **Theory**: [`theory/kafka/apache_kafka_basics.md`](theory/kafka/apache_kafka_basics.md)
+- **Code**: [`code/kafka/basic_example/`](code/kafka/basic_example/)
+- **Key Concepts**:
+  - Core architecture: Brokers, Topics, Partitions, and Consumer Groups
+  - Producers with keys, partition hashing, and ordering guarantees
+  - Consumer offset management and rebalancing mechanics
+  - Docker Compose Kafka & Zookeeper orchestration
+
+### **Day 10: Notification System Architecture**
+- **Theory**: [`theory/notification_system/notification_system.md`](theory/notification_system/notification_system.md)
+- **Code**: [`code/notification_system/`](code/notification_system/)
+- **Key Concepts**:
+  - Multi-channel notification pipeline (SMS, Push, Email, In-App)
+  - Priority queueing and worker rate limiting
+  - User notification settings and deduplication
+  - Visual architecture flow diagram
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Java 11+
-- Maven
-- (Optional) Docker for Redis and MongoDB
+- **Java 17+** (or Java 11+)
+- **Maven 3.8+**
+- **Docker & Docker Compose** (for Redis, Kafka, Zookeeper)
 
 ### Running Code Examples
 
-Each topic has its own code directory with a README containing specific instructions. General steps:
+Each topic has its own code directory with a README containing specific instructions:
 
 ```bash
 # Navigate to the code directory
@@ -106,25 +135,26 @@ mvn clean compile
 mvn exec:java -Dexec.mainClass="com.systemdesign.[package].DemoClass"
 ```
 
-### External Dependencies
+### External Services (Docker)
 
-Some examples require external services:
-
-**Redis (for Caching examples):**
+**Redis (for Caching and Rate Limiting):**
 ```bash
-docker run -d -p 6379:6379 redis:latest
+docker run -d -p 6379:6379 --name redis redis:latest
 ```
 
-**MongoDB (for NoSQL examples):**
+**Kafka & Zookeeper:**
 ```bash
-docker run -d -p 27017:27017 mongo:latest
+cd code/kafka/basic_example
+docker-compose up -d
 ```
+
+---
 
 ## 📁 Repository Structure
 
 ```
 Systems_Designs_learning/
-├── theory/                          # Theory notes
+├── theory/                                    # Theoretical notes and case studies
 │   ├── load_balancer/
 │   ├── caching/
 │   ├── database_design/
@@ -132,93 +162,50 @@ Systems_Designs_learning/
 │   ├── authentication_authorization/
 │   ├── rate_limiter/
 │   ├── message_queues/
-│   └── distributed_id_generator/
-├── code/                            # Practical implementations
+│   ├── distributed_id_generator/
+│   ├── kafka/
+│   ├── notification_system/
+│   ├── twitter_x_system_design/               # Case Study: Twitter/X architecture
+│   │   ├── assets/                            # HD Architecture diagrams
+│   │   └── README.md
+│   └── interview_prep/                        # Interview Question Bank
+│       └── ecommerce_100_system_design_questions.md
+├── code/                                      # Practical implementations
 │   ├── load_balancer/
 │   ├── caching/
-│   │   └── redis_cache_example/
 │   ├── database_design/
-│   │   └── sharding_example/
 │   ├── api_gateway_microservices/
-│   │   └── api_gateway_example/
 │   ├── authentication_authorization/
-│   │   └── jwt_example/
 │   ├── rate_limiter/
-│   │   └── rate_limiter_example/
 │   ├── message_queues/
-│   │   └── message_broker_example/
-│   └── distributed_id_generator/
-│       └── snowflake_example/
-└── README.md                        # This file
+│   ├── distributed_id_generator/
+│   ├── kafka/
+│   └── notification_system/
+├── .gitignore                                 # Clean ignore rules (excludes build target/)
+└── README.md                                  # Repository overview
 ```
-
-## 🎯 Learning Path
-
-1. **Day 1**: Understand basic infrastructure (Servers, Load Balancers)
-2. **Day 2**: Learn performance optimization (Caching)
-3. **Day 3**: Master data storage (Database Design, Sharding)
-4. **Day 4**: Build distributed systems (API Gateway, Microservices)
-5. **Day 5**: Secure your systems (Authentication, Authorization)
-6. **Day 6**: Control API traffic (Rate Limiting & Throttling)
-7. **Day 7**: Decouple components (Message Queues & Event-Driven Architecture)
-8. **Day 8**: Design highly scalable unique IDs (Distributed Unique ID Generator)
-
-## 🛠️ Technologies Used
-
-- **Java 11+** - Primary programming language
-- **Maven** - Dependency management
-- **Redis** - Caching
-- **H2 Database** - In-memory database for demos
-- **JWT** - Token-based authentication
-- **BCrypt** - Password hashing
-
-## 📖 Key Takeaways
-
-### System Design Fundamentals
-- **Scalability**: Horizontal vs Vertical scaling
-- **Availability**: Replication and fault tolerance
-- **Performance**: Caching and indexing
-- **Security**: Authentication and authorization
-- **Reliability**: Load balancing and service discovery
-
-### Best Practices
-- Always use HTTPS in production
-- Never store plain text passwords
-- Implement proper error handling
-- Use appropriate caching strategies
-- Design for failure (fault tolerance)
-- Monitor and log everything
-
-## 🔗 Resources
-
-- **System Design Primer**: https://github.com/donnemartin/system-design-primer
-- **High Scalability**: http://highscalability.com/
-- **Engineering Blogs**: Netflix Tech Blog, Uber Engineering, AWS Architecture Blog
-
-## 📝 Progress
-
-- ✅ Day 1: Load Balancer
-- ✅ Day 2: Caching
-- ✅ Day 3: Database Design & Sharding
-- ✅ Day 4: API Gateway & Microservices
-- ✅ Day 5: Authentication & Authorization
-- ✅ Day 6: Rate Limiting & Throttling
-- ✅ Day 7: Message Queues & Event-Driven Architecture
-- ✅ Day 8: Distributed Unique ID Generator (Snowflake)
-
-## 🎓 Next Topics to Cover
-
-- Notification Systems (Using Webhooks, Push, SMS, Email routing)
-- Content Delivery Networks (CDN) & Edge Caching
-- Distributed Unique ID Generator (Twitter Snowflake, etc.)
-- Distributed Systems (CAP Theorem, Consistency Models, Consensus)
-- Monitoring & Observability
-- Real-world System Design (URL Shortener, Twitter Timeline, etc.)
-
-## 📧 Contact
-
-Feel free to reach out for discussions or collaborations on System Design topics!
 
 ---
 
-**Happy Learning! 🚀**
+## 📝 Progress Checklist
+
+- [x] Day 1: Servers & Load Balancer
+- [x] Day 2: Caching Strategies & Redis
+- [x] Day 3: Database Design & Sharding
+- [x] Day 4: API Gateway & Microservices
+- [x] Day 5: Authentication & Authorization (JWT)
+- [x] Day 6: Rate Limiting & Throttling
+- [x] Day 7: Message Queues & Event-Driven Architecture
+- [x] Day 8: Distributed Unique ID Generator (Snowflake)
+- [x] Day 9: Apache Kafka & Event Streaming
+- [x] Day 10: Notification System Architecture
+- [x] Case Study: Twitter / X Scalable Architecture
+- [x] Interview Series: 100 Production E-Commerce System Design Questions (3+ YOE)
+
+---
+
+## 🔗 Recommended Resources
+
+- **System Design Primer**: https://github.com/donnemartin/system-design-primer
+- **Designing Data-Intensive Applications** by Martin Kleppmann
+- **Engineering Blogs**: Netflix Tech Blog, Uber Engineering, AWS Architecture Blog
