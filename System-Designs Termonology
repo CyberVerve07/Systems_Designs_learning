@@ -1,0 +1,3 @@
+“Backpressure is a flow-control mechanism that allows a downstream consumer to signal demand or constrain incoming work when 
+it cannot process data as quickly as it arrives.
+It helps prevent unbounded buffering and protects system stability under load.”
