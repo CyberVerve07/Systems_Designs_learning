@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC SFU & Mediasoup Signaling Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 600;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--danger);
+        }
+
+        .status-dot.connected {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 340px 1fr 380px;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .panel {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .panel h2 {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn {
+            background-color: var(--accent);
+            color: #0f172a;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg-card);
+            color: var(--accent);
+        }
+
+        /* Video Stage */
+        .video-stage {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+            flex: 1;
+            min-height: 380px;
+            background-color: var(--bg-primary);
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            overflow-y: auto;
+        }
+
+        .video-card {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+        }
+
+        .video-card.local {
+            border-color: var(--accent);
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background-color: rgba(15, 23, 42, 0.85);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Signaling Log Console */
+        .console-log {
+            background-color: #0b0f19;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            flex: 1;
+            overflow-y: auto;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 550px;
+        }
+
+        .log-entry {
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        .log-entry .time {
+            color: var(--text-secondary);
+            margin-right: 6px;
+        }
+
+        .log-entry.incoming { color: #4ade80; }
+        .log-entry.outgoing { color: #38bdf8; }
+        .log-entry.system { color: #facc15; }
+        .log-entry.error { color: #f87171; }
+
+        .info-pill {
+            display: inline-block;
+            background-color: var(--bg-card);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>📹 WebRTC & Mediasoup SFU Signaling Lab</h1>
+            <p>Spring Boot Distributed Control Plane &bull; Selective Forwarding Unit Architecture</p>
+        </div>
+        <div class="status-badge">
+            <span class="status-dot" id="connectionDot"></span>
+            <span id="connectionText">Disconnected</span>
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <!-- Left Controls Panel -->
+        <div class="panel">
+            <h2>Room & Session</h2>
+            <div class="form-group">
+                <label for="roomIdInput">Meeting Room ID</label>
+                <input type="text" id="roomIdInput" value="room-101" placeholder="e.g. room-101">
+            </div>
+            <div class="form-group">
+                <label for="peerIdInput">Your Peer Name</label>
+                <input type="text" id="peerIdInput" value="Alice" placeholder="e.g. Alice">
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+                <button class="btn" id="btnJoin" style="flex: 1;" onclick="joinRoom()">Join Room</button>
+                <button class="btn btn-danger" id="btnLeave" style="flex: 1;" disabled onclick="leaveRoom()">Leave</button>
+            </div>
+
+            <h2 style="margin-top: 10px;">Media Stream (SFU Producer)</h2>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-outline" id="btnCapture" disabled onclick="startMediaCapture()">🎥 Start Camera & Mic</button>
+                <button class="btn btn-outline" id="btnProduce" disabled onclick="publishMediaToSfu()">🚀 Produce Stream (SFU)</button>
+            </div>
+
+            <h2 style="margin-top: 10px;">SFU Architecture State</h2>
+            <div style="font-size: 13px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px;">
+                <div>Router ID: <span class="info-pill" id="lblRouterId">None</span></div>
+                <div>Send Transport: <span class="info-pill" id="lblSendTransport">None</span></div>
+                <div>Recv Transport: <span class="info-pill" id="lblRecvTransport">None</span></div>
+                <div>Active Producer: <span class="info-pill" id="lblProducerId">None</span></div>
+            </div>
+        </div>
+
+        <!-- Center Video Grid -->
+        <div class="panel video-stage">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Participant Video Feeds</h2>
+                <span class="info-pill" id="lblRoomInfo">Room: Not Joined</span>
+            </div>
+
+            <div class="video-grid" id="videoGrid">
+                <div class="video-card local" id="localCard" style="display: none;">
+                    <video id="localVideo" autoplay playsinline muted></video>
+                    <div class="video-label" id="localLabel">Local (You)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Signaling Console -->
+        <div class="panel">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Signaling Protocol Log</h2>
+                <button class="btn btn-outline" style="padding: 4px 10px; font-size: 12px;" onclick="clearLogs()">Clear</button>
+            </div>
+            <div class="console-log" id="consoleLog">
+                <div class="log-entry system"><span class="time">[System]</span> Ready. Click "Join Room" to initialize WebSocket signaling handshake.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let ws = null;
+        let localStream = null;
+        let currentRoomId = null;
+        let currentPeerId = null;
+        let sendTransportId = null;
+        let recvTransportId = null;
+        let myProducerId = null;
+
+        const connectionDot = document.getElementById('connectionDot');
+        const connectionText = document.getElementById('connectionText');
+        const consoleLog = document.getElementById('consoleLog');
+        const btnJoin = document.getElementById('btnJoin');
+        const btnLeave = document.getElementById('btnLeave');
+        const btnCapture = document.getElementById('btnCapture');
+        const btnProduce = document.getElementById('btnProduce');
+        const localCard = document.getElementById('localCard');
+        const localVideo = document.getElementById('localVideo');
+        const localLabel = document.getElementById('localLabel');
+        const videoGrid = document.getElementById('videoGrid');
+
+        function log(type, message, data = null) {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            const time = new Date().toLocaleTimeString();
+            let text = `<span class="time">[${time}]</span> ${message}`;
+            if (data) {
+                text += ` <pre style="font-size: 11px; opacity: 0.85; margin-top: 2px;">${JSON.stringify(data, null, 2)}</pre>`;
+            }
+            entry.innerHTML = text;
+            consoleLog.appendChild(entry);
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+        }
+
+        function clearLogs() {
+            consoleLog.innerHTML = '';
+        }
+
+        function connectWebSocket() {
+            return new Promise((resolve, reject) => {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${protocol}//${window.location.host}/ws/signaling`;
+
+                log('system', `Connecting to Signaling WebSocket at ${wsUrl}...`);
+                ws = new WebSocket(wsUrl);
+
+                ws.onopen = () => {
+                    connectionDot.classList.add('connected');
+                    connectionText.innerText = 'Connected';
+                    log('system', 'WebSocket handshake successful!');
+                    resolve();
+                };
+
+                ws.onmessage = (event) => {
+                    const msg = JSON.parse(event.data);
+                    handleSignalingMessage(msg);
+                };
+
+                ws.onclose = () => {
+                    connectionDot.classList.remove('connected');
+                    connectionText.innerText = 'Disconnected';
+                    log('system', 'WebSocket connection closed.');
+                    resetUi();
+                };
+
+                ws.onerror = (err) => {
+                    log('error', 'WebSocket Error encountered.');
+                    reject(err);
+                };
+            });
+        }
+
+        async function joinRoom() {
+            currentRoomId = document.getElementById('roomIdInput').value.trim();
+            currentPeerId = document.getElementById('peerIdInput').value.trim();
+
+            if (!currentRoomId || !currentPeerId) {
+                alert('Please provide both Room ID and Peer Name.');
+                return;
+            }
+
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                await connectWebSocket();
+            }
+
+            // Step 1: Send JOIN_ROOM message
+            const joinMsg = {
+                type: 'JOIN_ROOM',
+                roomId: currentRoomId,
+                peerId: currentPeerId,
+                payload: { displayName: currentPeerId }
+            };
+
+            sendSignal(joinMsg);
+            btnJoin.disabled = true;
+            btnLeave.disabled = false;
+            btnCapture.disabled = false;
+            document.getElementById('lblRoomInfo').innerText = `Room: ${currentRoomId} (${currentPeerId})`;
+        }
+
+        function leaveRoom() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                sendSignal({
+                    type: 'LEAVE_ROOM',
+                    roomId: currentRoomId,
+                    peerId: currentPeerId
+                });
+                ws.close();
+            }
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+            }
+            resetUi();
+        }
+
+        function resetUi() {
+            btnJoin.disabled = false;
+            btnLeave.disabled = true;
+            btnCapture.disabled = true;
+            btnProduce.disabled = true;
+            localCard.style.display = 'none';
+            document.getElementById('lblRouterId').innerText = 'None';
+            document.getElementById('lblSendTransport').innerText = 'None';
+            document.getElementById('lblRecvTransport').innerText = 'None';
+            document.getElementById('lblProducerId').innerText = 'None';
+            document.getElementById('lblRoomInfo').innerText = 'Room: Not Joined';
+
+            // Remove remote video tiles
+            const remoteTiles = document.querySelectorAll('.video-card.remote');
+            remoteTiles.forEach(tile => tile.remove());
+        }
+
+        async function startMediaCapture() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+                localCard.style.display = 'flex';
+                localLabel.innerText = `${currentPeerId} (You - Camera)`;
+                btnProduce.disabled = false;
+                log('system', 'User media captured successfully (Audio & Video tracks active).');
+            } catch (err) {
+                log('error', `Media capture failed: ${err.message}. Using synthetic stream simulator.`);
+                // Fallback for headless environments or without webcam
+                btnProduce.disabled = false;
+            }
+        }
+
+        function publishMediaToSfu() {
+            // Step 2: Request creation of WebRtcTransport for sending media
+            sendSignal({
+                type: 'CREATE_WEBRTC_TRANSPORT',
+                roomId: currentRoomId,
+                peerId: currentPeerId,
+                payload: { direction: 'send' }
+            });
+        }
+
+        function handleSignalingMessage(msg) {
+            log('incoming', `← Received: ${msg.type}`, msg.payload);
+
+            switch (msg.type) {
+                case 'ROOM_JOINED':
+                    document.getElementById('lblRouterId').innerText = 'Allocated';
+                    log('system', `Successfully joined room ${msg.roomId}. SFU Router Capabilities received.`);
+
+                    // If existing producers exist in the room, request RecvTransport to consume them
+                    if (msg.payload.existingProducers && msg.payload.existingProducers.length > 0) {
+                        ensureRecvTransport(() => {
+                            msg.payload.existingProducers.forEach(prod => consumeProducer(prod.producerId, prod.peerId, prod.kind));
+                        });
+                    }
+                    break;
+
+                case 'WEBRTC_TRANSPORT_CREATED':
+                    const transportId = msg.payload.id;
+                    const direction = msg.payload.direction;
+
+                    if (direction === 'send') {
+                        sendTransportId = transportId;
+                        document.getElementById('lblSendTransport').innerText = transportId.substring(0, 15) + '...';
+
+                        // Connect SendTransport with simulated DTLS parameters
+                        sendSignal({
+                            type: 'CONNECT_TRANSPORT',
+                            roomId: currentRoomId,
+                            peerId: currentPeerId,
+                            payload: {
+                                transportId: sendTransportId,
+                                dtlsParameters: { role: 'client', fingerprints: [{ algorithm: 'sha-256', value: 'DEMO-FINGERPRINT' }] }
+                            }
+                        });
+
+                        // Then trigger PRODUCE
+                        sendSignal({
+                            type: 'PRODUCE',
+                            roomId: currentRoomId,
+                            peerId: currentPeerId,
+                            payload: {
+                                transportId: sendTransportId,
+                                kind: 'video',
+                                rtpParameters: { codecs: [{ mimeType: 'video/VP8', clockRate: 90000 }] }
+                            }
+                        });
+                    } else {
+                        recvTransportId = transportId;
+                        document.getElementById('lblRecvTransport').innerText = transportId.substring(0, 15) + '...';
+                        if (window.pendingConsumeCallback) {
+                            window.pendingConsumeCallback();
+                            window.pendingConsumeCallback = null;
+                        }
+                    }
+                    break;
+
+                case 'PRODUCED':
+                    myProducerId = msg.payload.id;
+                    document.getElementById('lblProducerId').innerText = myProducerId;
+                    btnProduce.disabled = true;
+                    log('system', `🎉 Media Producer active! Publishing video track to SFU as ${myProducerId}`);
+                    break;
+
+                case 'NEW_PRODUCER':
+                    log('system', `🔔 Participant ${msg.payload.producerPeerId} is now streaming ${msg.payload.kind}!`);
+                    ensureRecvTransport(() => {
+                        consumeProducer(msg.payload.producerId, msg.payload.producerPeerId, msg.payload.kind);
+                    });
+                    break;
+
+                case 'CONSUMED':
+                    log('system', `📺 Subscribed to Consumer ${msg.payload.id} for Producer ${msg.payload.producerId}`);
+                    addRemoteVideoTile(msg.payload.producerId, msg.payload.kind);
+                    break;
+
+                case 'PEER_JOINED':
+                    log('system', `👋 Peer joined room: ${msg.payload.peerId}`);
+                    break;
+
+                case 'PEER_LEFT':
+                    log('system', `🚪 Peer left room: ${msg.payload.peerId}`);
+                    break;
+
+                case 'PRODUCER_CLOSED':
+                    removeRemoteVideoTile(msg.payload.producerId);
+                    break;
+
+                case 'ERROR':
+                    log('error', `Server Error: ${JSON.payload ? JSON.stringify(msg.payload) : 'Unknown error'}`);
+                    break;
+            }
+        }
+
+        function ensureRecvTransport(callback) {
+            if (recvTransportId) {
+                callback();
+            } else {
+                window.pendingConsumeCallback = callback;
+                sendSignal({
+                    type: 'CREATE_WEBRTC_TRANSPORT',
+                    roomId: currentRoomId,
+                    peerId: currentPeerId,
+                    payload: { direction: 'recv' }
+                });
+            }
+        }
+
+        function consumeProducer(producerId, producerPeerId, kind) {
+            sendSignal({
+                type: 'CONSUME',
+                roomId: currentRoomId,
+                peerId: currentPeerId,
+                payload: {
+                    transportId: recvTransportId,
+                    producerId: producerId,
+                    rtpCapabilities: { codecs: [{ mimeType: 'video/VP8' }] }
+                }
+            });
+        }
+
+        function addRemoteVideoTile(producerId, kind) {
+            const tileId = `tile-${producerId}`;
+            if (document.getElementById(tileId)) return;
+
+            const card = document.createElement('div');
+            card.className = 'video-card remote';
+            card.id = tileId;
+
+            const video = document.createElement('video');
+            video.autoplay = true;
+            video.playsInline = true;
+            // Simulated video preview stream
+            if (localStream) {
+                video.srcObject = localStream.clone();
+            }
+
+            const label = document.createElement('div');
+            label.className = 'video-label';
+            label.innerText = `Stream [${kind.toUpperCase()}] - ${producerId.substring(0, 12)}`;
+
+            card.appendChild(video);
+            card.appendChild(label);
+            videoGrid.appendChild(card);
+        }
+
+        function removeRemoteVideoTile(producerId) {
+            const tile = document.getElementById(`tile-${producerId}`);
+            if (tile) tile.remove();
+        }
+
+        function sendSignal(msg) {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                log('outgoing', `→ Sent: ${msg.type}`, msg.payload);
+                ws.send(JSON.stringify(msg));
+            }
+        }
+    </script>
+</body>
+</html>
+
