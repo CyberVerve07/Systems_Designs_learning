@@ -26,9 +26,9 @@ jobs:
         run: |
           set -e
           echo "Discovered Maven modules:"
-          find code -name "pom.xml" -sort
+          find code -name "pom.xml" | sort
           
-          find code -name "pom.xml" | while read -r pom; do
+          find code -name "pom.xml" | sort | while read -r pom; do
             echo "=================================================="
             echo "Building: $pom"
             echo "=================================================="
