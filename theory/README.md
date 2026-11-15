@@ -8,6 +8,7 @@ This directory contains comprehensive theoretical notes, deep-dives, architectur
 
 ### 🏢 Real-World Architecture Case Studies
 - **[Twitter / X Distributed Architecture](./twitter_x_system_design/README.md)**: End-to-end multi-region design covering ingestion, hybrid fan-out, microservices mesh, Kafka event streaming, and polyglot persistence. Includes HD architecture diagrams in [`./twitter_x_system_design/assets/`](./twitter_x_system_design/assets/).
+- **[Social Engagement Engine (Likes, Comments & Dislikes Service)](./social_engagement_service/README.md)**: Hyper-scale architecture for Instagram, Twitter (X) & YouTube handling 1M+ writes/sec, distributed sharded counters, write-behind batching, 2-level comment threading, and anti-brigading/bot protection.
 
 ### 🎯 Interview Preparation Masterclass
 - **[100 Production E-Commerce System Design Interview Questions (3+ YOE)](./interview_prep/ecommerce_100_system_design_questions.md)**:
